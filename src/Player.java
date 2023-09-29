@@ -19,11 +19,11 @@ public class Player {
         return deck.getNb() == deck.cards.length;
     }
 
-    public boolean pickACard(char firstLetter){
+    public Card pickACard(char firstLetter){
         //this condition checks if 'firstLetter' correct or not
         if((firstLetter != 'e') && (firstLetter != 's') && (firstLetter != 'c')){
             System.out.println("enter a correct letter!");
-            return false;
+            return null;
         }
         return deck.removeCard(firstLetter);
     }

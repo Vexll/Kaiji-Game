@@ -1,18 +1,20 @@
 import java.util.Scanner;
 
 public class Main {
-    static Player p1;
+    static Player p1 = new Player(new EmpireDeck(), "A");
     static Player p2;
     static Scanner input = new Scanner(System.in);
-    public static void main(String[] args)  {
-        System.out.println("\t\t\t---------( WELCOME TO KAIJI GAME!! )---------");
-        menu();
-        System.out.println("     ︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶\n");
-        gameStartingMotion();
+
+    public static void main(String[] args) {
+//        System.out.println("\t\t\t---------( WELCOME TO KAIJI GAME!! )---------");
+//        menu();
+//        System.out.println("     ︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶\n");
+//        startingMotion();
+
 
     }
 
-    public static void menu(){
+    public static void menu() {
         System.out.println();
         System.out.println("player one info -> name and character ");
         System.out.print("\tEnter name: ");
@@ -26,20 +28,19 @@ public class Main {
         System.out.println("Player two info -> name");
         System.out.print("\tEnter name: ");
         String secondPlayerName = input.next();
-        if(firstPlayerChose == 0) {
+        if (firstPlayerChose == 0) {
             System.out.println("You will start with Slave Deck");
-            p1 = new Player(new EmpireDeck(),firstPlayerName);
-            p2 = new Player(new SlaveDeck(),secondPlayerName);
-        }
-        else {
+            p1 = new Player(new EmpireDeck(), firstPlayerName);
+            p2 = new Player(new SlaveDeck(), secondPlayerName);
+        } else {
             System.out.println("You will start with Empire Deck");
-            p1 = new Player(new SlaveDeck(),firstPlayerName);
-            p2 = new Player(new EmpireDeck(),secondPlayerName);
+            p1 = new Player(new SlaveDeck(), firstPlayerName);
+            p2 = new Player(new EmpireDeck(), secondPlayerName);
         }
         System.out.println();
     }
 
-    public static void gameStartingMotion(){
+    public static void startingMotion() {
         try {
             System.out.println("Game Will Start in ");
             Thread.sleep(1000);
@@ -48,52 +49,25 @@ public class Main {
             System.out.println(2);
             Thread.sleep(1000);
             System.out.println(1);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
+
+    public static void PlayerTurn(Player p) {
+        String player = "";
+        if (p == p1)
+            player = "First";
+        else
+            player = "Second";
+        System.out.println(player + " Player turn");
+        System.out.println(p.deck);
+        System.out.print("Enter the first letter if a card you wanna play:");
+        char choice = input.next().charAt(0);
+        p1.deck.removeCard(choice);
+    }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //        System.out.println("┌───────┐" + "\t" + "┌───────┐" + "\t" + "┌───────┐");

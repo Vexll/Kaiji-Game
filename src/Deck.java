@@ -21,16 +21,17 @@ public class Deck {
         return nb == 0;
     }
 
-    public boolean removeCard(char firstLetter){
+    public Card removeCard(char firstLetter){
         if(!isDeckEmpty()) {
             for (int i = 0; i < nb; i++) {
                 if (cards[i].name.charAt(0) == firstLetter) {
+                    Card temp = cards[i];
                     cards[i] = cards[--nb];
-                    return true;
+                    return temp;
                 }
             }
         }
-        return false;
+        return null;
     }
 
     public int getNb() {
