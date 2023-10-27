@@ -1,19 +1,23 @@
 public class Player {
-    public Deck deck;
+    private Deck deck;
     private String name;
+
 
     public Player(Deck deck, String name){
         this.deck = deck;
         this.name = name;
     }
 
-    public Player(){
-
+    public Player(Player player){
+        this.deck = player.deck;
+        this.name = player.name;
     }
 
     public String getName(){
         return name;
     }
+
+    public Deck getDeck(){return deck;}
 
     public boolean isDeckEmpty(){
         return deck.getNb() == deck.cards.length;
@@ -22,7 +26,7 @@ public class Player {
     public Card pickACard(char firstLetter){
         //this condition checks if 'firstLetter' correct or not
         if((firstLetter != 'e') && (firstLetter != 's') && (firstLetter != 'c')){
-            System.out.println("enter a correct letter!");
+            System.out.println("Please enter a correct letter!");
             return null;
         }
         return deck.removeCard(firstLetter);

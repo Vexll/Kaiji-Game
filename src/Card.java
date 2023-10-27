@@ -12,5 +12,6 @@ abstract class Card {
         return numOfLines;
     }
 
+    public int getPower(){return power;}
 
 }
