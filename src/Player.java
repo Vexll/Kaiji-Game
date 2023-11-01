@@ -19,9 +19,6 @@ public class Player {
 
     public Deck getDeck(){return deck;}
 
-    public boolean isDeckEmpty(){
-        return deck.getNb() == deck.cards.length;
-    }
 
     public Card pickACard(char firstLetter){
         //this condition checks if 'firstLetter' correct or not

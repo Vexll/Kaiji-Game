@@ -1,10 +1,12 @@
 import java.util.Scanner;
 
 public class Game {
-    private static Player p1;
-    private static Player p2;
+
+    private static Player firstPlayer;
+    private static Player secondPlayer;
     private static Card pickedCardForFirstPlayer;
     private static Card pickedCardForSecondPlayer;
+
     private static Scanner input = new Scanner(System.in);
 
     public Game() {
@@ -27,66 +29,88 @@ public class Game {
         String secondPlayerName = input.next();
         System.out.println("\n     ------------------------Players Status------------------------\n");
         if (firstPlayerChose == 0) {
-            p1 = new Player(new EmpireDeck(), firstPlayerName);
-            p2 = new Player(new SlaveDeck(), secondPlayerName);
-            System.out.println(p1.getName() + " will start with Empire deck\t\t " + p2.getName() + " will start with Slave deck");
+            firstPlayer = new Player(new EmpireDeck(), firstPlayerName);
+            secondPlayer = new Player(new SlaveDeck(), secondPlayerName);
+            System.out.println(firstPlayer.getName() + " will start with Empire deck\t\t " + secondPlayer.getName() + " will start with Slave deck");
         } else {
-            p1 = new Player(new SlaveDeck(), firstPlayerName);
-            p2 = new Player(new EmpireDeck(), secondPlayerName);
-            System.out.println(p1.getName() + " will start with Slave deck\t\t " + p2.getName() + " will start with Empire deck");
+            firstPlayer = new Player(new SlaveDeck(), firstPlayerName);
+            secondPlayer = new Player(new EmpireDeck(), secondPlayerName);
+            System.out.println(firstPlayer.getName() + " will start with Slave deck\t\t " + secondPlayer.getName() + " will start with Empire deck");
         }
         System.out.println();
         startingMotion();
     }
 
     public static void firstPlayerTurn() {
+        System.out.println("\n     ︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶\n");
         System.out.println("First player turn");
-        p1.displayCurrentCards();
+        firstPlayer.displayCurrentCards();
 
         //This loop if the user inputs a wrong letter
         do {
-            System.out.print("Enter the first letter for the card you want to play(s = SLV, w = WAR, e = EMP): ");
+            String playerOption = (firstPlayer.getDeck() instanceof EmpireDeck) ?
+                    "Enter the first letter for the card you want to play(e = EMP, c = CIT): " :
+                    "Enter the first letter for the card you want to play(s = SLV, c = CIT): ";
+            System.out.print(playerOption);
             char playerChoice = input.next().charAt(0);
-            pickedCardForFirstPlayer = p1.pickACard(playerChoice);
+            pickedCardForFirstPlayer = firstPlayer.pickACard(playerChoice);
             input.nextLine(); //consumed line
-        }while (pickedCardForFirstPlayer == null);
+        } while (pickedCardForFirstPlayer == null);
     }
 
     public static void secondPlayerTurn() {
+        System.out.println("\n     ︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶︵︶\n");
         System.out.println("Second player turn");
-        p2.displayCurrentCards();
+        secondPlayer.displayCurrentCards();
         //This loop if the user inputs a wrong letter
         do {
-            System.out.print("Enter the first letter for the card you want to play(s = SLV, w = WAR, e = EMP): ");
+            String playerOption = (firstPlayer.getDeck() instanceof EmpireDeck) ?
+                    "Enter the first letter for the card you want to play(e = EMP, c = CIT): " :
+                    "Enter the first letter for the card you want to play(s = SLV, c = CIT): ";
+            System.out.print(playerOption);
             char playerChoice = input.next().charAt(0);
-            pickedCardForSecondPlayer = p2.pickACard(playerChoice);
+            pickedCardForSecondPlayer = secondPlayer.pickACard(playerChoice);
             input.nextLine(); //consumed line
-        }while (pickedCardForSecondPlayer == null);
+        } while (pickedCardForSecondPlayer == null);
     }
 
 
     public int comparison() {
+        int counter = 1;
+        do {
+            if(counter < 5) {
+                firstPlayerTurn();
+                System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+                secondPlayerTurn();
+            }else{
+                if(firstPlayer.getDeck() instanceof EmpireDeck){
+                    pickedCardForFirstPlayer = firstPlayer.pickACard('e');
+                    pickedCardForSecondPlayer = secondPlayer.pickACard('s');
+                }else{
+                    pickedCardForFirstPlayer = firstPlayer.pickACard('s');
+                    pickedCardForSecondPlayer = secondPlayer.pickACard('e');
+                }
+            }
+
             //first player wins
             if ((pickedCardForFirstPlayer instanceof SlaveCard && pickedCardForSecondPlayer instanceof EmpireCard)
                     || (pickedCardForFirstPlayer instanceof CitizenCard && pickedCardForSecondPlayer instanceof SlaveCard)
                     || (pickedCardForFirstPlayer instanceof EmpireCard && pickedCardForSecondPlayer instanceof CitizenCard)) {
-                System.out.println(p1.getName() + " has won\n" + "congratulations!");
-                return 1;
+                return 1; // 1 refer to first player
             }
 
             //second player wins
             if ((pickedCardForFirstPlayer instanceof SlaveCard && pickedCardForSecondPlayer instanceof CitizenCard)
                     || (pickedCardForFirstPlayer instanceof EmpireCard && pickedCardForSecondPlayer instanceof SlaveCard)
                     || (pickedCardForFirstPlayer instanceof CitizenCard && pickedCardForSecondPlayer instanceof EmpireCard)) {
-                System.out.println(p2.getName() + "has won\n" + "congratulations!");
-                return 2;
+                return 2; // 2 refer to second player
             }
 
             //no win yet
-            System.out.println("Both of you have chosen Citizen");
-
-            return 0;
-
+            System.out.println("\nResult: ");
+            System.out.println("\tBoth of you have chosen Citizen");
+            counter++;
+        } while (true);
     }
 
     private static void startingMotion() {
@@ -101,5 +125,13 @@ public class Game {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public static Player getFirstPlayer() {
+        return firstPlayer;
+    }
+
+    public static Player getSecondPlayer() {
+        return secondPlayer;
     }
 }

@@ -8,7 +8,6 @@ public class EmpireCard extends Card{
                 "│ E     │",
                 "└───────┘",
         };
-        super.power = 2;
         super.name = "empire";
     }
 

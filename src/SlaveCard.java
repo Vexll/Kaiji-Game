@@ -8,7 +8,6 @@ public class SlaveCard extends Card{
                 "│ S     │",
                 "└───────┘",
         };
-        super.power = 0;
         super.name = "slave";
     }
 

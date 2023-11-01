@@ -9,7 +9,6 @@ public class CitizenCard extends Card {
                 "└───────┘",
         };
         super.name = "citizen";
-        super.power = 1;
     }
 
 }
